@@ -103,23 +103,23 @@ List network namespaces from the location:
 
 **Still 8.8.8.8 is unreachable from sn1 and ns2, neet to add ip forwardingin Host machine**
 
-# terminal-1
-# now trying to ping 8.8.8.8 again
+--terminal-1
+--now trying to ping 8.8.8.8 again
 sudo ip netns exec ns1 ping 8.8.8.8
-# still unreachable
+--still unreachable
 
-# terminal 2
-# open tcpdump in eth0 to see the packet
+--terminal 2
+--open tcpdump in eth0 to see the packet
 sudo tcpdump -i eth0 icmp
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 
-# enabling ip forwarding by change value 0 to 1
+--enabling ip forwarding by change value 0 to 1
 1. sudo sysctl -w net.ipv4.ip_forward=1
 2. sudo cat /proc/sys/net/ipv4/ip_forward
    1
 
-# no packet captured, let's capture traffic for br0
+--no packet captured, let's capture traffic for br0
 sudo tcpdump -i br0 icmp
 
 
