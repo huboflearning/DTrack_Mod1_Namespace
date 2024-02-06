@@ -105,16 +105,16 @@ List network namespaces from the location:
 
 --terminal-1
 --now trying to ping 8.8.8.8 again
-sudo ip netns exec ns1 ping 8.8.8.8
+1. sudo ip netns exec ns1 ping 8.8.8.8
 --still unreachable
 
 --terminal 2
 --open tcpdump in eth0 to see the packet
-sudo tcpdump -i eth0 icmp
+1. sudo tcpdump -i eth0 icmp
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 -->No Packet captured, let's capture traffic for br0
-sudo tcpdump -i bro icmp
+1. sudo tcpdump -i bro icmp
 --> We can see the traffic at bro but we don't get response from eth0, it is 
 Terminal 2:
 becasue of ip forwarding issue.
@@ -125,20 +125,20 @@ becasue of ip forwarding issue.
          1
 
 --no packet captured, let's capture traffic for br0
-sudo tcpdump -i br0 icmp
+1. sudo tcpdump -i br0 icmp
 
 Terminal 2:
-sudo tcpdump -i eth0 icmp
+1. sudo tcpdump -i eth0 icmp
 --> Now we can see packets at eth0
 
 Still we cannot ping 8.8.8.8 from ns1.
 To achive that we will need to do NAT at host machine by placing an iptables rule in the POSTROUTING chain of the nat table.
 
-sudo iptables \
-        -t nat \
-        -A POSTROUTING \
-        -s 172.16.1.0\24 ! -0 br0 \
-        -j MASQUERADE
+1. sudo iptables \
+          -t nat \
+          -A POSTROUTING \
+          -s 172.16.1.0\24 ! -0 br0 \
+          -j MASQUERADE
 
 **Now we are getting ping respnse from 8.8.8.8**
 sudo ip netns exec ns1 ping -c 2 8.8.8.8
